@@ -5,12 +5,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useState } from 'react';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 import { TwitterPicker } from 'react-color';
+import {green} from '@material-ui/core/colors';
 
 export default function AjouterDossier({ouvert, setOuvert, gererAjout}) {
   const [nom, setNom] = useState('');
   const [couverture, setCouverture] = useState('');
   const [couleur, setCouleur] = useState('#537169');
+  const vert = createMuiTheme({ palette: { secondary: green } })
 
   function viderChamps() {
     setNom('');
@@ -43,6 +47,7 @@ export default function AjouterDossier({ouvert, setOuvert, gererAjout}) {
             defaultValue={couverture}
           />
           <TwitterPicker 
+            colors= {['#FF6900', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#0693E3']}
             width="100%" 
             triangle="hide" 
             onChangeComplete={(couleur, e) => setCouleur(couleur.hex)}
@@ -50,12 +55,16 @@ export default function AjouterDossier({ouvert, setOuvert, gererAjout}) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=>{setOuvert(false); viderChamps()}} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={() => {nom !== '' && gererAjout(nom, couverture, couleur); viderChamps(); }} color="primary">
-            Ajouter
-          </Button>
+
+            <Button onClick={()=>{setOuvert(false); viderChamps()}} variant="contained" color="secondary">
+              Annuler
+            </Button>
+
+          <ThemeProvider theme={vert}>
+            <Button onClick={() => {nom !== '' && gererAjout(nom, couverture, couleur); viderChamps(); }} variant="contained" color="secondary">
+              Ajouter
+            </Button>
+          </ThemeProvider>
         </DialogActions>
       </Dialog>
     </div>
